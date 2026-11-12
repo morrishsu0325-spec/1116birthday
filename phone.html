@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<!-- 主持人手機題庫：點一下題目可以標記「已唸過」 -->
+<title>serina 27 主持人題庫</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=LXGW+WenKai+TC:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .32 0 0 0 0 .34 0 0 0 .2 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --stars:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cg opacity='.8'%3E%3Cpath fill='%23F2A7B8' d='M20 6l3.5 8 8.5.6-6.6 5.4 2.2 8.4-7.6-4.6-7.6 4.6 2.2-8.4L8 14.6l8.5-.6z'/%3E%3Cpath fill='%2399C8E8' transform='translate(70 30) scale(.8)' d='M20 6l3.5 8 8.5.6-6.6 5.4 2.2 8.4-7.6-4.6-7.6 4.6 2.2-8.4L8 14.6l8.5-.6z'/%3E%3Cpath fill='%23F6D86B' transform='translate(30 80) scale(.9)' d='M20 6l3.5 8 8.5.6-6.6 5.4 2.2 8.4-7.6-4.6-7.6 4.6 2.2-8.4L8 14.6l8.5-.6z'/%3E%3Cpath fill='%2399D9BF' transform='translate(100 95) scale(.7)' d='M20 6l3.5 8 8.5.6-6.6 5.4 2.2 8.4-7.6-4.6-7.6 4.6 2.2-8.4L8 14.6l8.5-.6z'/%3E%3Cpath fill='%23C5B3EA' transform='translate(95 0) scale(.6)' d='M20 6l3.5 8 8.5.6-6.6 5.4 2.2 8.4-7.6-4.6-7.6 4.6 2.2-8.4L8 14.6l8.5-.6z'/%3E%3C/g%3E%3C/svg%3E");
+  --ink:#4A3838;--soft:#7A6464;--rose:#E86F8E;--green:#3FB58F;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+html{scroll-padding-top:120px}
+body{font-family:'LXGW WenKai TC','Noto Sans TC',system-ui,sans-serif;color:var(--ink);background-color:#F7E1E4;background-image:var(--noise);-webkit-tap-highlight-color:transparent;font-size:18px}
+button{font:inherit;color:inherit}
+.en{font-family:'Gochi Hand',cursive;font-weight:400}
+.tape{position:absolute;width:110px;height:30px;background:rgba(255,231,160,.78);box-shadow:0 1px 2px rgba(0,0,0,.08);clip-path:polygon(3% 0,97% 4%,100% 30%,96% 55%,100% 80%,97% 100%,3% 96%,0 70%,4% 45%,0 18%);z-index:3}
+.tape.pk{background:rgba(244,169,188,.75)}.tape.bl{background:repeating-linear-gradient(90deg,rgba(157,191,230,.8) 0 8px,rgba(255,255,255,.75) 8px 16px)}
+.tape.mt{background:rgba(143,217,196,.75)}.tape.dt{background-color:rgba(255,244,190,.85);background-image:radial-gradient(rgba(243,169,187,.9) 22%,transparent 25%);background-size:10px 10px}
+.paper{position:relative;background-color:#FFFDF8;background-image:var(--noise);box-shadow:0 8px 18px rgba(90,50,50,.14),0 1px 2px rgba(0,0,0,.06)}
+.lined{background-color:#FFFDF8;background-image:var(--noise),repeating-linear-gradient(transparent 0 35px,rgba(157,191,230,.55) 35px 37px);line-height:37px}
+.pt-pink{background-color:#F7E1E4;background-image:var(--noise)}
+.pt-cream{background-color:#FBF6EE;background-image:var(--noise)}
+.pt-dots{background-color:#FFF4BE;background-image:var(--noise),radial-gradient(#F3A9BB 21%,transparent 23%);background-size:220px,32px 32px}
+.pt-stripe{background-color:#F8F6F0;background-image:var(--noise),repeating-linear-gradient(90deg,#A9C7EA 0 13px,transparent 13px 30px)}
+.pt-stars{background-color:#FFFDF8;background-image:var(--noise),var(--stars);background-size:220px,140px}
+.pt-grid{background-color:#E9FAF5;background-image:var(--noise),radial-gradient(#9C9696 22%,transparent 26%),radial-gradient(#9C9696 22%,transparent 26%);background-size:220px,28px 28px,28px 28px;background-position:0 0,0 0,14px 14px}
+.pt-gingham{background-color:#FFF8F4;background-image:var(--noise),linear-gradient(90deg,rgba(232,111,111,.42) 50%,transparent 50%),linear-gradient(rgba(232,111,111,.42) 50%,transparent 50%);background-size:220px,28px 28px,28px 28px}
+.pt-lav{background-color:#EEE7FA;background-image:var(--noise),var(--stars);background-size:220px,140px}
+.pt-night{background-color:#2E2648;background-image:var(--noise),radial-gradient(rgba(255,255,255,.7) 6%,transparent 8%),radial-gradient(rgba(255,240,180,.5) 5%,transparent 7%);background-size:220px,60px 60px,90px 90px;background-position:0 0,10px 20px,40px 5px}
+.pt-chalk{background-color:#35594B;background-image:var(--noise),radial-gradient(rgba(255,255,255,.05) 1px,transparent 1.5px);background-size:220px,6px 6px}
+.pt-hearts{background-color:#FCE4EC;background-image:var(--noise),radial-gradient(#F8C4D3 18%,transparent 20%);background-size:220px,24px 24px}
+.pt-sky{background-color:#DDEEFB;background-image:var(--noise),var(--stars);background-size:220px,160px}
+.polaroid{position:relative;background:#fff;padding:10px 10px 38px;box-shadow:0 8px 18px rgba(80,40,40,.2)}
+.polaroid img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;filter:saturate(.85) contrast(1.02) sepia(.08)}
+.polaroid .cap{position:absolute;left:0;right:0;bottom:6px;text-align:center;font-family:'Gochi Hand';font-size:20px;color:var(--soft)}
+.stamp{display:inline-block;font-weight:700;border:2.5px dashed currentColor;border-radius:10px;padding:2px 12px;transform:rotate(-4deg)}
+.sticker{display:inline-block;font-weight:700;padding:4px 14px;border-radius:999px;background:var(--cl,#FBE3E8);box-shadow:0 2px 0 rgba(0,0,0,.08)}
+.bunting{position:relative;height:96px;overflow:hidden;pointer-events:none}
+.bunting svg{position:absolute;left:0;top:0;width:100%;height:100%}
+.flagrow{position:absolute;left:0;right:0;top:0;height:100%}
+.fl{position:absolute;width:56px;height:70px;clip-path:polygon(0 0,100% 0,52% 100%);transform-origin:top center;animation:sway 3.2s ease-in-out infinite}
+@keyframes sway{50%{transform:rotate(3deg)}}
+header{position:sticky;top:0;z-index:10;background-color:#F7E1E4;background-image:var(--noise);padding:12px 14px 10px;box-shadow:0 4px 12px rgba(90,50,50,.08)}
+header h1{margin:0;font-size:22px;display:flex;align-items:center;gap:8px}
+header h1 .en{color:var(--rose);font-size:28px}
+.chips{display:flex;gap:8px;overflow-x:auto;margin-top:10px;padding-bottom:4px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips a{flex:0 0 auto;text-decoration:none;color:var(--ink);font-weight:700;font-size:15px;background:#FFFDF8;padding:7px 13px;border-radius:999px;box-shadow:0 2px 0 rgba(0,0,0,.06)}
+.chips a b{font-family:'Gochi Hand';font-weight:400;color:var(--rose);font-size:18px;margin-right:3px}
+main{padding:14px 14px 60px;max-width:720px;margin:0 auto}
+section{margin:0 0 22px;padding:20px 18px 16px;border-radius:20px;background-color:#FFFDF8;background-image:var(--noise);box-shadow:0 6px 14px rgba(90,50,50,.08)}
+section .hd{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+section .no{font-family:'Gochi Hand';font-size:34px;color:var(--rose);line-height:1}
+section h2{margin:0;font-size:24px}
+section .adj{font-size:14px;font-weight:700;background:var(--cl);padding:2px 10px;border-radius:999px}
+.rules{margin:12px 0 4px;padding:12px 14px;border-radius:14px;background:var(--cl);font-size:16px;line-height:1.7}
+.rules b{display:block;margin-bottom:2px}
+.sub{font-weight:700;font-size:17px;margin:16px 0 8px;display:flex;justify-content:space-between;align-items:center}
+.sub button{border:none;background:#F1E9E7;border-radius:999px;padding:4px 12px;font-size:13px;font-weight:700;color:var(--soft)}
+.tbd{display:inline-block;font-size:12px;font-weight:700;color:#fff;background:#E8A23A;padding:2px 8px;border-radius:999px;margin-left:6px;vertical-align:2px}
+ol.q{margin:0;padding:0;list-style:none}
+ol.q li{display:flex;gap:10px;align-items:flex-start;padding:12px 10px;border-radius:12px;font-size:19px;line-height:1.5;cursor:pointer;border-bottom:1px dashed rgba(74,56,56,.15)}
+ol.q li .k{flex:0 0 auto;min-width:34px;height:34px;border-radius:50%;background:var(--cl);display:grid;place-items:center;font-family:'Gochi Hand';font-size:20px}
+ol.q li .lvl{display:block;font-size:12px;font-weight:700;color:var(--soft)}
+ol.q li .ab{display:block}
+ol.q li .ab i{font-style:normal;font-weight:700;color:var(--rose)}
+ol.q li.done{opacity:.4;text-decoration:line-through}
+ol.q li.done .k{background:var(--green);color:#fff}
+ol.q li:active{background:rgba(232,111,142,.08)}
+table{width:100%;border-collapse:collapse;font-size:17px}
+th,td{padding:10px 8px;text-align:left;border-bottom:1px dashed rgba(74,56,56,.18);vertical-align:top}
+th{font-size:14px;color:var(--soft)}
+.ans{font-weight:700;color:var(--green)}
+.big{font-family:'Gochi Hand';font-size:26px}
+.note{font-size:14px;color:var(--soft);margin-top:8px;line-height:1.6}
+.top{position:fixed;right:14px;bottom:18px;z-index:12;width:50px;height:50px;border-radius:50%;border:none;background:var(--rose);color:#fff;font-size:22px;box-shadow:0 4px 10px rgba(0,0,0,.2)}
+</style>
+</head>
+<body>
+<header>
+  <h1><span class="en">serina 27</span>主持人題庫</h1>
+  <nav class="chips" id="chips"></nav>
+</header>
+<main id="app"></main>
+<button class="top" onclick="scrollTo({top:0,behavior:'smooth'})" aria-label="回到最上面">↑</button>
+<script>
+/* =================== 題庫（可直接修改，標「待定」的請再確認） =================== */
+const MATH=[
+ ['A',[4,6,3],'4 × 6 + 3'],['B',[8,4,5],'8 × 4 − 5'],['C',[9,2,9],'9 × 2 + 9'],['D',[9,6,2],'9 × 6 ÷ 2'],
+ ['E',[7,4,1],'7 × 4 − 1'],['F',[10,2,7],'10 × 2 + 7'],['G',[3,3,3],'3 × 3 × 3'],['H',[5,5,2],'5 × 5 + 2'],
+ ['I',[6,5,3],'6 × 5 − 3'],['J',[2,9,1],'(2 + 1) × 9'],['K',[8,3,3],'8 × 3 + 3'],['L',[12,2,3],'12 × 2 + 3']
+];
+const MIND=[['一輩子不能吃火鍋','一輩子不能喝手搖'],['夏天沒有冷氣','冬天沒有熱水'],['永遠早上 5 點起床','永遠凌晨 3 點才睡'],['手機只能打電話','手機只能上網'],['海邊的小木屋','市中心的小套房'],['去山上露營','住五星級飯店'],['一輩子只能吃甜的','一輩子只能吃鹹的'],['跟前任同組做報告','跟老闆單獨出差三天'],['被所有人看到搜尋紀錄','被所有人看到相簿'],['婚禮上被點名致詞','婚禮上被點名唱歌'],['放屁很大聲但不臭','沒有聲音但超臭'],['全家人看到聊天紀錄','全公司看到聊天紀錄'],['隱形一天','飛行一天'],['聽得懂動物說話','會說世界上所有語言'],['瞬間移動','時間暫停'],['回到過去','看見未來'],['永遠只能說真話','永遠聽不到真話'],['很有錢但沒有時間','很有時間但沒有錢'],['被很多人喜歡','被一個人深愛'],['收到 100 封手寫信','收到一份超貴的禮物']];
+const TABOO=[
+ ['簡單','今天早餐吃了什麼？'],['簡單','最喜歡的顏色？'],['簡單','狗派還是貓派？'],['簡單','最近一次去旅行是去哪裡？'],['簡單','最常點的手搖飲是什麼？'],
+ ['中等','在場誰最常遲到？'],['中等','最受不了別人哪個習慣？'],['中等','手機裡最常用的 App？'],['中等','最近一次哭是為了什麼？'],['中等','最不擅長的一件事？'],
+ ['辛辣','在場誰最欠揍？'],['辛辣','最後悔的一個決定？'],['辛辣','初戀是幾歲？'],['辛辣','最想對前任說的一句話？'],['辛辣','26 歲最丟臉的一件事？']
+];
+const SCEN=[['凌晨兩點回家，跟媽媽解釋為什麼這麼晚','拿著衣架、很生氣的媽媽'],['在電梯巧遇暗戀的人，要拿到對方的聯絡方式','暗戀對象'],['說服陌生人，把最後一塊蛋糕讓給妳','也想吃蛋糕、排在妳前面的陌生人']];
+
+const LV=[
+ {id:1,adj:'聰穎',name:'歡迎光臨27歲',cl:'#E3F7F1'},{id:2,adj:'知性',name:'汁性檸檬臉',cl:'#FFF6CF'},{id:3,adj:'善解人意',name:'讀心術',cl:'#EFE9FB'},
+ {id:4,adj:'溫柔細膩・高雅脫俗',name:'矇眼摸摸排年紀',cl:'#FBE3E8'},{id:5,adj:'有品味',name:'盲品大師',cl:'#FFE9DA'},{id:6,adj:'勇敢',name:'恐怖箱',cl:'#E6E0F2'},
+ {id:7,adj:'直率',name:'禁語挑戰',cl:'#E4EEF9'},{id:8,adj:'有魅力',name:'魅力電波',cl:'#FCE4EC'},{id:9,adj:'自由奔放',name:'願望大聲公',cl:'#DDEEFB'}
+];
+
+/* =================== 畫面 =================== */
+const store={get(k,d){try{const v=localStorage.getItem('s27p_'+k);return v?JSON.parse(v):d;}catch(e){return d;}},set(k,v){try{localStorage.setItem('s27p_'+k,JSON.stringify(v));}catch(e){}}};
+let DONE=store.get('done',{});
+const li=(key,k,html)=>`<li data-key="${key}" class="${DONE[key]?'done':''}"><span class="k">${k}</span><span>${html}</span></li>`;
+const body={
+ 1:()=>`<div class="rules"><b>規則</b>挑戰者選一位關主 PK，平板出題（3 個數字）。用 ＋ − × ÷ 和括號算出 27，拍鈴鐺搶答，答對贏下該題；答錯要等 5 秒才能再搶。共 3 題，挑戰者每贏 1 題得 1 份。</div>
+  <div class="sub">題目與答案（代號和平板卡片相同）</div>
+  <table><tr><th>卡</th><th>數字</th><th>參考答案</th></tr>${MATH.map(([k,n,a])=>`<tr><td class="big">${k}</td><td class="big">${n.join('　')}</td><td class="ans">${a}</td></tr>`).join('')}</table>
+  <p class="note">任何算法只要等於 27、每個數字都用到一次就算對。</p>`,
+ 2:()=>`<div class="rules"><b>規則</b>4 位關主同時喝 4 杯飲料，喝完維持撲克臉，挑戰者指出誰喝到檸檬汁。必須全部猜對才算贏，每贏 1 輪得 1 份。</div>
+  <table><tr><th>輪</th><th>檸檬汁</th><th>水</th></tr><tr><td>第 1 輪</td><td>1 杯</td><td>3 杯</td></tr><tr><td>第 2 輪</td><td>1 杯</td><td>3 杯</td></tr><tr><td>第 3 輪</td><td>2 杯</td><td>2 杯</td></tr></table>
+  <p class="note">杯子用不透明的，由主持人在後台偷偷配好，誰拿到檸檬汁可以事先抽籤決定。</p>`,
+ 3:()=>`<div class="rules"><b>規則</b>挑戰者選一位關主。主持人唸題後倒數，兩人同時說出答案，一樣就算命中，由平板計分。命中率 50% 得 1 份、70% 得 2 份、85% 得 3 份。</div>
+  <div class="sub"><span>20 題二選一<span class="tbd">待討論</span></span><button data-clear="r">清除標記</button></div>
+  <ol class="q">${MIND.map(([a,b],i)=>li('r'+i,i+1,`<span class="ab"><i>A</i> ${a}</span><span class="ab"><i>B</i> ${b}</span>`)).join('')}</ol>
+  <p class="note">點一下題目可以標記「已唸過」。</p>`,
+ 4:()=>`<div class="rules"><b>規則</b>5 位關主排一排，挑戰者矇眼只摸手肘，依年紀由大排到小。每次排完公布排對幾位，共 3 次機會：第 1 次全對 3 份、第 2 次 2 份、第 3 次 1 份。</div>
+  <div class="sub"><span>關主年紀順序（由大到小）<span class="tbd">待填</span></span></div>
+  <table><tr><th>順位</th><th>關主</th><th>生日</th></tr>${[1,2,3,4,5].map(n=>`<tr><td class="big">${n}</td><td>＿＿＿＿</td><td>＿＿＿＿</td></tr>`).join('')}</table>`,
+ 5:()=>`<div class="rules"><b>規則</b>挑戰者矇眼品嚐 3 杯珍奶。開始前先唸出 3 個品牌名稱，挑戰者依品牌排出正確順序。第 1 輪答對 3 份、第 2 輪 2 份、第 3 輪 1 份。</div>
+  <div class="sub"><span>品牌與擺放順序<span class="tbd">待定</span></span></div>
+  <table><tr><th>杯</th><th>品牌</th></tr><tr><td class="big">1</td><td>＿＿＿＿</td></tr><tr><td class="big">2</td><td>＿＿＿＿</td></tr><tr><td class="big">3</td><td>＿＿＿＿</td></tr></table>
+  <p class="note">每一輪重新試喝前，建議讓挑戰者喝口水清味道。</p>`,
+ 6:()=>`<div class="rules"><b>規則</b>挑戰者矇眼把手伸進箱子。每輪開始前，主持人告知這輪的關鍵信物，找到並拿出箱子才算通關，每通關 1 箱得 1 份。</div>
+  <div class="sub"><span>三個箱子<span class="tbd">待定</span></span></div>
+  <table><tr><th>箱</th><th>關鍵信物</th><th>箱子裡放什麼</th></tr>
+   <tr><td class="big">1</td><td>＿＿＿＿</td><td>果凍、濕海綿、毛毛球</td></tr>
+   <tr><td class="big">2</td><td>＿＿＿＿</td><td>蒟蒻絲、納豆、粉圓</td></tr>
+   <tr><td class="big">3</td><td>＿＿＿＿</td><td>冰水手套、剝皮葡萄、濕麵條、濕拖把頭</td></tr></table>
+  <p class="note">信物先裝進夾鏈袋，藏在最底層或角落。</p>`,
+ 7:()=>`<div class="rules"><b>規則</b>共 15 題，從簡單一路到辛辣。每題 5 秒內要回答，關主和小幫手負責讀秒。超過 5 秒扣 1 份禮物（一開始 3 份），扣完挑戰結束。</div>
+  <div class="sub"><span>15 題<span class="tbd">待討論</span></span><button data-clear="t">清除標記</button></div>
+  <ol class="q">${TABOO.map(([lv,q],i)=>li('t'+i,i+1,`<span class="lvl">${lv}</span>${q}`)).join('')}</ol>`,
+ 8:()=>`<div class="rules"><b>規則</b>平板抽情境卡，主持人宣讀並飾演配角。表演 2 分鐘，時間到進入投票，3 位評審亮 10 分或 0 分，過半數 10 分即過關，每過 1 題得 1 份。</div>
+  <div class="sub">3 張情境卡</div>
+  <ol class="q">${SCEN.map(([s,r],i)=>`<li><span class="k">${i+1}</span><span>${s}<span class="lvl" style="margin-top:4px">🎭 主持人飾演：${r}</span></span></li>`).join('')}</ol>`,
+ 9:()=>`<div class="rules"><b>規則</b>共 3 輪，每輪喊出一個生日願望，分貝計放在嘴巴旁邊，每輪只有 1 次機會，達標得 1 份。</div>
+  <table><tr><th>輪</th><th>目標</th></tr><tr><td>第 1 個願望</td><td class="big">90 dB</td></tr><tr><td>第 2 個願望</td><td class="big">100 dB</td></tr><tr><td>第 3 個願望</td><td class="big">110 dB</td></tr></table>`
+};
+function render(){
+  document.getElementById('chips').innerHTML=LV.map(l=>`<a href="#lv${l.id}"><b>${l.id}</b>${l.name}</a>`).join('');
+  document.getElementById('app').innerHTML=LV.map(l=>`<section id="lv${l.id}" style="--cl:${l.cl}"><div class="hd"><span class="no">${l.id}</span><h2>${l.name}</h2><span class="adj">${l.adj}</span></div>${body[l.id]()}</section>`).join('');
+}
+document.addEventListener('click',e=>{
+  const c=e.target.closest('[data-clear]');
+  if(c){const p=c.dataset.clear;Object.keys(DONE).forEach(k=>{if(k[0]===p)delete DONE[k];});store.set('done',DONE);render();return;}
+  const l=e.target.closest('li[data-key]');
+  if(l){const k=l.dataset.key;DONE[k]=!DONE[k];if(!DONE[k])delete DONE[k];store.set('done',DONE);l.classList.toggle('done');}
+});
+render();
+</script>
+</body>
+</html>
