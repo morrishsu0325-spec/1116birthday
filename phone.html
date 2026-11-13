@@ -82,6 +82,9 @@ th{font-size:14px;color:var(--soft)}
 .ans{font-weight:700;color:var(--green)}
 .big{font-family:'Gochi Hand';font-size:26px}
 .note{font-size:14px;color:var(--soft);margin-top:8px;line-height:1.6}
+.cat{margin:20px 0 4px;padding:6px 14px;border-radius:12px;background:var(--cl);font-weight:700;font-size:18px;display:flex;justify-content:space-between}
+.cat span{font-size:14px;color:var(--soft)}
+.newtag{display:inline-block;font-size:12px;font-weight:700;color:#fff;background:var(--rose);padding:1px 8px;border-radius:999px;margin-bottom:2px}
 .top{position:fixed;right:14px;bottom:18px;z-index:12;width:50px;height:50px;border-radius:50%;border:none;background:var(--rose);color:#fff;font-size:22px;box-shadow:0 4px 10px rgba(0,0,0,.2)}
 </style>
 </head>
@@ -99,7 +102,21 @@ const MATH=[
  ['E',[7,4,1],'7 × 4 − 1'],['F',[10,2,7],'10 × 2 + 7'],['G',[3,3,3],'3 × 3 × 3'],['H',[5,5,2],'5 × 5 + 2'],
  ['I',[6,5,3],'6 × 5 − 3'],['J',[2,9,1],'(2 + 1) × 9'],['K',[8,3,3],'8 × 3 + 3'],['L',[12,2,3],'12 × 2 + 3']
 ];
-const MIND=[['一輩子不能吃火鍋','一輩子不能喝手搖'],['夏天沒有冷氣','冬天沒有熱水'],['永遠早上 5 點起床','永遠凌晨 3 點才睡'],['手機只能打電話','手機只能上網'],['海邊的小木屋','市中心的小套房'],['去山上露營','住五星級飯店'],['一輩子只能吃甜的','一輩子只能吃鹹的'],['跟前任同組做報告','跟老闆單獨出差三天'],['被所有人看到搜尋紀錄','被所有人看到相簿'],['婚禮上被點名致詞','婚禮上被點名唱歌'],['放屁很大聲但不臭','沒有聲音但超臭'],['全家人看到聊天紀錄','全公司看到聊天紀錄'],['隱形一天','飛行一天'],['聽得懂動物說話','會說世界上所有語言'],['瞬間移動','時間暫停'],['回到過去','看見未來'],['永遠只能說真話','永遠聽不到真話'],['很有錢但沒有時間','很有時間但沒有錢'],['被很多人喜歡','被一個人深愛'],['收到 100 封手寫信','收到一份超貴的禮物']];
+// 讀心術題庫：依類別分組，new:1 為新增的候選題（從中挑出共 20 題）
+const MIND=[
+ {cat:'生活日常',qs:[
+  ['一輩子不能吃火鍋','一輩子不能喝手搖'],['夏天沒有冷氣','冬天沒有熱水'],['海邊的小木屋','市中心的小套房'],['去山上露營','住五星級飯店'],
+  ['住在永遠是夏天的地方','住在永遠是冬天的地方',1],['每天通勤兩小時','每天加班兩小時',1],['出門一定下雨','出門一定塞車',1],['一輩子不能喝咖啡','一輩子不能吃巧克力',1]]},
+ {cat:'尷尬糗事',qs:[
+  ['被所有人看到搜尋紀錄','被所有人看到相簿'],['婚禮上被點名致詞','婚禮上被點名唱歌'],['放屁很大聲但不臭','沒有聲音但超臭'],
+  ['在捷運上大聲打噴嚏','在電梯裡肚子大聲叫',1],['牙齒卡菜一整天沒人說','褲子拉鍊沒拉一整天沒人說',1],['在大家面前跌倒','在大家面前叫錯別人名字',1],['唱 KTV 走音被錄影','跳舞同手同腳被錄影',1]]},
+ {cat:'超能力幻想',qs:[
+  ['聽得懂動物說話','會說世界上所有語言'],['瞬間移動','時間暫停'],['回到過去','看見未來'],
+  ['能讀出別人的心','能預知明天會發生的事',1],['跟偶像吃一頓飯','跟 10 年後的自己聊一小時',1],['擁有一張無限額度的信用卡一天','擁有一位萬能管家一年',1]]},
+ {cat:'人生價值',qs:[
+  ['很有錢但沒有時間','很有時間但沒有錢'],['被很多人喜歡','被一個人深愛'],['收到 100 封手寫信','收到一份超貴的禮物'],
+  ['做喜歡但薪水普通的工作','做不喜歡但薪水超高的工作',1],['一個超懂妳的朋友','十個普通的朋友',1],['生日收到一場驚喜派對','生日收到一趟旅行',1],['30 歲前存到一百萬','30 歲前環遊世界一次',1]]}
+];
 const TABOO=[
  ['簡單','今天早餐吃了什麼？'],['簡單','最喜歡的顏色？'],['簡單','狗派還是貓派？'],['簡單','最近一次去旅行是去哪裡？'],['簡單','最常點的手搖飲是什麼？'],
  ['中等','在場誰最常遲到？'],['中等','最受不了別人哪個習慣？'],['中等','手機裡最常用的 App？'],['中等','最近一次哭是為了什麼？'],['中等','最不擅長的一件事？'],
@@ -126,9 +143,9 @@ const body={
   <table><tr><th>輪</th><th>檸檬汁</th><th>水</th></tr><tr><td>第 1 輪</td><td>1 杯</td><td>3 杯</td></tr><tr><td>第 2 輪</td><td>1 杯</td><td>3 杯</td></tr><tr><td>第 3 輪</td><td>2 杯</td><td>2 杯</td></tr></table>
   <p class="note">杯子用不透明的，由主持人在後台偷偷配好，誰拿到檸檬汁可以事先抽籤決定。</p>`,
  3:()=>`<div class="rules"><b>規則</b>挑戰者選一位關主。主持人唸題後倒數，兩人同時說出答案，一樣就算命中，由平板計分。命中率 50% 得 1 份、70% 得 2 份、85% 得 3 份。</div>
-  <div class="sub"><span>20 題二選一<span class="tbd">待討論</span></span><button data-clear="r">清除標記</button></div>
-  <ol class="q">${MIND.map(([a,b],i)=>li('r'+i,i+1,`<span class="ab"><i>A</i> ${a}</span><span class="ab"><i>B</i> ${b}</span>`)).join('')}</ol>
-  <p class="note">點一下題目可以標記「已唸過」。</p>`,
+  <div class="sub"><span>題庫 ${MIND.reduce((s,c)=>s+c.qs.length,0)} 題（挑 20 題使用）</span><button data-clear="q">清除標記</button></div>
+  ${(()=>{let n=0;return MIND.map(c=>`<div class="cat">${c.cat}<span>${c.qs.length} 題</span></div><ol class="q">${c.qs.map(([a,b,isNew])=>{n++;return li('q'+n,n,`${isNew?'<span class="newtag">新</span>':''}<span class="ab"><i>A</i> ${a}</span><span class="ab"><i>B</i> ${b}</span>`);}).join('')}</ol>`).join('');})()}
+  <p class="note">標「新」的是新增的候選題。點一下題目可以標記「已唸過」。</p>`,
  4:()=>`<div class="rules"><b>規則</b>5 位關主排一排，挑戰者矇眼只摸手肘，依年紀由大排到小。每次排完公布排對幾位，共 3 次機會：第 1 次全對 3 份、第 2 次 2 份、第 3 次 1 份。</div>
   <div class="sub"><span>關主年紀順序（由大到小）<span class="tbd">待填</span></span></div>
   <table><tr><th>順位</th><th>關主</th><th>生日</th></tr>${[1,2,3,4,5].map(n=>`<tr><td class="big">${n}</td><td>＿＿＿＿</td><td>＿＿＿＿</td></tr>`).join('')}</table>`,
