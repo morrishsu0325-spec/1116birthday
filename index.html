@@ -173,7 +173,7 @@ button{font:inherit;color:inherit}
 .tile .spark{position:absolute;width:36px;opacity:0;pointer-events:none}
 .tile.rev:hover .spark{animation:spk .7s ease-out}
 @keyframes spk{0%{opacity:0;scale:.2}40%{opacity:1;scale:1.2}100%{opacity:0;scale:.6;translate:var(--sx) var(--sy)}}
-.reset{position:absolute;left:210px;bottom:26px;z-index:31;font-size:22px;background:rgba(255,253,248,.7);border:none;border-radius:999px;padding:6px 16px;cursor:pointer;color:var(--soft)}
+.reset{position:absolute;left:262px;bottom:26px;z-index:31;font-size:22px;background:rgba(255,253,248,.7);border:none;border-radius:999px;padding:6px 16px;cursor:pointer;color:var(--soft)}
 
 /* 彈出視窗 */
 #pop{position:absolute;inset:0;z-index:40;display:none;background:rgba(74,56,56,.55)}
@@ -246,7 +246,10 @@ button{font:inherit;color:inherit}
 .dots{position:absolute;left:50%;translate:-50% 0;bottom:24px;display:flex;justify-content:center;gap:12px;z-index:30}
 .dots button{width:18px;height:18px;border-radius:50%;border:none;padding:0;background:rgba(74,56,56,.22);cursor:pointer}
 .dots button.on{background:var(--rose);width:44px;border-radius:10px}
-.navhide .nav,.navhide .dots{display:none}
+.navhide .nav,.navhide .dots,.navhide .tapnext{display:none}
+#s1,#s2,#s3,#s4,#s5{cursor:pointer}
+.tapnext{position:absolute;left:0;right:0;bottom:62px;text-align:center;font-size:22px;font-weight:700;color:var(--soft);opacity:.6;pointer-events:none;z-index:29;display:none;animation:pulse 1.6s infinite}
+.tapnext.on{display:block}
 .fsbtn{position:absolute;left:30px;bottom:26px;z-index:30;border:none;background:rgba(255,253,248,.7);border-radius:999px;padding:8px 18px;font-size:20px;color:var(--soft);cursor:pointer}
 .cf{position:absolute;top:-30px;width:16px;height:22px;z-index:60;pointer-events:none;animation:fall linear forwards}
 @keyframes fall{to{translate:0 1160px;rotate:720deg}}
@@ -295,9 +298,11 @@ button{font:inherit;color:inherit}
   <section class="slide" id="s6"></section>
 
   <div id="pop"></div>
+  <div class="tapnext" id="tapnext">點一下畫面繼續 ›</div>
   <div class="dots" id="dots"></div>
   <div class="nav"><button id="prev" aria-label="上一頁">‹</button><button id="next" aria-label="下一頁">›</button></div>
-  <button class="fsbtn" id="fs">⛶ 全螢幕</button>
+  <button class="fsbtn" id="snd" aria-label="音效開關" style="left:30px;padding:8px 14px">🔊</button>
+  <button class="fsbtn" id="fs" style="left:96px">⛶ 全螢幕</button>
 </div>
 
 <script>
@@ -475,6 +480,68 @@ function scene(id){
   }
 }
 
+/* =================== 音效（全部用程式合成，不需要額外檔案） =================== */
+const SFX=(()=>{
+  let ctx=null,master=null,muted=false;
+  try{muted=localStorage.getItem('s27_mute')==='1';}catch(e){}
+  function init(){
+    if(!ctx){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return null;
+      ctx=new AC();master=ctx.createGain();master.gain.value=muted?0:.6;
+      const comp=ctx.createDynamicsCompressor();comp.threshold.value=-14;comp.ratio.value=4;
+      master.connect(comp);comp.connect(ctx.destination);}
+    if(ctx.state==='suspended')ctx.resume();
+    return ctx;
+  }
+  const ok=()=>ctx&&!muted&&ctx.state!=='closed';
+  function tone(f,t,d,o={}){
+    const {type='sine',v=.3,f2=null,a=.006,vib=0,vibR=6,curve='exp'}=o;
+    const T=ctx.currentTime+t,osc=ctx.createOscillator(),g=ctx.createGain();
+    osc.type=type;osc.frequency.setValueAtTime(f,T);
+    if(f2)osc.frequency.exponentialRampToValueAtTime(f2,T+d);
+    if(vib){const l=ctx.createOscillator(),lg=ctx.createGain();l.frequency.value=vibR;lg.gain.value=vib;l.connect(lg);lg.connect(osc.frequency);l.start(T);l.stop(T+d+.05);}
+    g.gain.setValueAtTime(0.0001,T);g.gain.linearRampToValueAtTime(v,T+a);
+    if(curve==='lin')g.gain.linearRampToValueAtTime(0.0001,T+d);else g.gain.exponentialRampToValueAtTime(0.0001,T+d);
+    osc.connect(g);g.connect(master);osc.start(T);osc.stop(T+d+.05);
+  }
+  let nb=null;
+  function noise(t,d,o={}){
+    const {v=.3,type='bandpass',f=1200,f2=null,q=1,a=.004}=o;
+    if(!nb){nb=ctx.createBuffer(1,ctx.sampleRate*2,ctx.sampleRate);const c=nb.getChannelData(0);for(let i=0;i<c.length;i++)c[i]=Math.random()*2-1;}
+    const T=ctx.currentTime+t,s=ctx.createBufferSource(),fl=ctx.createBiquadFilter(),g=ctx.createGain();
+    s.buffer=nb;fl.type=type;fl.frequency.setValueAtTime(f,T);if(f2)fl.frequency.exponentialRampToValueAtTime(f2,T+d);fl.Q.value=q;
+    g.gain.setValueAtTime(0.0001,T);g.gain.linearRampToValueAtTime(v,T+a);g.gain.exponentialRampToValueAtTime(0.0001,T+d);
+    s.connect(fl);fl.connect(g);g.connect(master);s.start(T,Math.random());s.stop(T+d+.05);
+  }
+  const bell=(f,t,d=1.2,v=.22)=>{tone(f,t,d,{v});tone(f*2.76,t,d*.5,{v:v*.35});tone(f*5.4,t,d*.25,{v:v*.15});};
+  const N={C5:523.3,D5:587.3,E5:659.3,F5:698.5,G5:784,A5:880,B5:987.8,C6:1046.5,D6:1174.7,E6:1318.5,G6:1568,A6:1760,C7:2093};
+  const popper=t=>{noise(t,.18,{v:.5,type:'highpass',f:1500});tone(320,t,.18,{type:'triangle',v:.25,f2:90});};
+  const game={
+    1:t=>{[1500,1700,1900].forEach((f,i)=>tone(f,t+i*.08,.06,{type:'square',v:.08}));bell(N.C7,t+.32,1.4,.28);bell(N.G6,t+.32,1.2,.12);},
+    2:t=>{noise(t,.35,{v:.18,f:2500,f2:500,q:3});tone(620,t+.38,.7,{type:'sawtooth',v:.12,f2:230,vib:18,vibR:9});tone(180,t+1.1,.25,{type:'sine',v:.3,f2:520});},
+    3:t=>{[N.A5,N.C6,N.E6,N.A6,N.E6,N.C6].forEach((f,i)=>{tone(f,t+i*.12,.9,{v:.12,vib:5,vibR:5});tone(f,t+i*.12+.22,.8,{v:.05,vib:5});});noise(t,1.2,{v:.05,type:'highpass',f:6000});},
+    4:t=>{[N.G6,N.E6,N.C6,N.E6,N.G6,N.C7].forEach((f,i)=>bell(f,t+i*.17,.9,.14));},
+    5:t=>{bell(3100,t,1,.2);bell(4300,t+.02,.7,.12);bell(3100,t+.28,1,.2);bell(4300,t+.3,.7,.12);[N.C6,N.E6,N.G6].forEach(f=>tone(f,t+.6,1.1,{type:'triangle',v:.08}));},
+    6:t=>{tone(55,t,1.6,{type:'sawtooth',v:.16,vib:3,vibR:2});noise(t+.05,1.4,{v:.4,type:'lowpass',f:500,f2:120,a:.02});tone(880,t+.5,1,{v:.05,vib:8,vibR:4});tone(932,t+.5,1,{v:.05,vib:8,vibR:4});},
+    7:t=>{[N.C5,N.E5,N.G5,N.C6].forEach((f,i)=>tone(f,t+i*.08,.12,{type:'square',v:.1}));tone(140,t+.45,.38,{type:'sawtooth',v:.16,curve:'lin'});[0,1,2].forEach(i=>tone(1000,t+.95+i*.22,.08,{type:'square',v:.08}));},
+    8:t=>{[0,.32].forEach(d=>{tone(70,t+d,.14,{v:.5,f2:40});tone(60,t+d+.15,.14,{v:.35,f2:38});});[1200,1500,1800,2200,2600,3100].forEach((f,i)=>tone(f,t+.75+i*.06,.4,{v:.07}));},
+    9:t=>{[0,.42].forEach(d=>{tone(440,t+d,.32,{type:'sawtooth',v:.11,f2:470});tone(554,t+d,.32,{type:'sawtooth',v:.09,f2:585});});noise(t+.85,1,{v:.16,f:1300,q:.6,a:.1});}
+  };
+  return {
+    init,
+    get muted(){return muted;},
+    toggle(){muted=!muted;try{localStorage.setItem('s27_mute',muted?'1':'0');}catch(e){}if(init())master.gain.value=muted?0:.6;return muted;},
+    click(){if(ok()){tone(1300,0,.06,{type:'triangle',v:.16,f2:900});tone(2600,0,.03,{v:.05});}},
+    hover(){if(ok())tone(1900,0,.05,{v:.05,f2:2300});},
+    page(){if(ok()){noise(0,.3,{v:.13,f:500,f2:3000,q:.8,a:.05});tone(N.E6,.12,.18,{type:'triangle',v:.05});}},
+    envelope(){if(!ok())return;noise(0,.35,{v:.12,type:'highpass',f:3500,a:.05});noise(.35,.3,{v:.1,type:'highpass',f:3000});[N.C6,N.E6,N.G6,N.C7].forEach((f,i)=>bell(f,.65+i*.11,1,.14));popper(1.3);},
+    flip(k){if(ok()){tone(500+k*90,0,.12,{type:'triangle',v:.1,f2:900+k*120});noise(0,.08,{v:.05,type:'highpass',f:4000});}},
+    reveal(){if(ok()){popper(0);[N.C6,N.E6,N.G6,N.C7,N.E6,N.G6].forEach((f,i)=>bell(f,.1+i*.07,.6,.08));}},
+    popup(id){if(!ok())return;noise(0,.35,{v:.12,f:300,f2:4000,q:1,a:.3});tone(200,0,.35,{type:'triangle',v:.08,f2:800,curve:'lin'});(game[id]||(()=>{}))(.36);noise(1.95,.3,{v:.08,f:2500,f2:600,q:.8,a:.04});},
+    close(){if(ok())tone(700,0,.1,{type:'triangle',v:.12,f2:350});}
+  };
+})();
+['pointerdown','keydown'].forEach(ev=>document.addEventListener(ev,()=>SFX.init(),{capture:true,passive:true}));
+
 /* =================== 投影片內容 =================== */
 function buildSlides(){
   document.getElementById('s1').innerHTML=`
@@ -568,6 +635,7 @@ function buildSlides(){
 /* =================== 彈出視窗 =================== */
 const pop=document.getElementById('pop');
 function openPop(id){
+  SFX.init();SFX.popup(id);
   const l=LV.find(x=>x.id===id);
   pop.innerHTML=`
     <div class="pu-intro" style="--cl:${l.cl}">
@@ -599,7 +667,7 @@ function openPop(id){
   const t=document.querySelector(`.tile[data-lv="${id}"]`);
   if(t){t.classList.add('done');saveDone();}
 }
-function closePop(){pop.className='';pop.innerHTML='';document.getElementById('canvas').classList.remove('navhide');}
+function closePop(){if(pop.className)SFX.close();pop.className='';pop.innerHTML='';document.getElementById('canvas').classList.remove('navhide');}
 pop.addEventListener('click',e=>{if(e.target===pop)closePop();});
 
 /* 已挑戰標記 */
@@ -610,18 +678,21 @@ function loadDone(){let a=[];try{a=JSON.parse(localStorage.getItem(DKEY))||[];}c
 /* =================== 換頁 =================== */
 const N=7;let cur=0;let revealed=false;
 function show(i){
+  const prevCur=cur;
   cur=Math.max(0,Math.min(N-1,i));
+  if(cur!==prevCur)SFX.page();
+  document.getElementById('tapnext').classList.toggle('on',cur>=1&&cur<=5);
   document.querySelectorAll('.slide').forEach((s,k)=>{s.classList.toggle('on',k===cur);});
   const sl=document.getElementById('s'+cur);
   // 重新觸發動畫
   sl.querySelectorAll('.in,.up,.drop').forEach(e=>{e.style.animationName='none';void e.offsetWidth;e.style.animationName='';});
   document.querySelectorAll('#dots button').forEach((b,k)=>b.classList.toggle('on',k===cur));
-  if(cur===6&&!revealed){revealed=true;document.querySelectorAll('.tile').forEach((t,k)=>setTimeout(()=>t.classList.add('rev'),600+k*180));}
+  if(cur===6&&!revealed){revealed=true;document.querySelectorAll('.tile').forEach((t,k)=>setTimeout(()=>{t.classList.add('rev');SFX.flip(k);if(k===8)setTimeout(()=>SFX.reveal(),350);},600+k*180));}
   if(cur===6&&revealed)document.querySelectorAll('.tile').forEach(t=>t.classList.add('rev'));
 }
 function next(){if(pop.className)return;if(cur===0&&!document.getElementById('env').classList.contains('open')){openEnv();return;}show(cur+1);}
 function prev(){if(pop.className)return;show(cur-1);}
-function openEnv(){const env=document.getElementById('env');if(env.classList.contains('open'))return;env.classList.add('open');document.getElementById('hint').style.display='none';setTimeout(()=>{confetti(120);document.getElementById('enter').classList.add('show');},1300);}
+function openEnv(){const env=document.getElementById('env');if(env.classList.contains('open'))return;SFX.init();SFX.envelope();env.classList.add('open');document.getElementById('hint').style.display='none';setTimeout(()=>{confetti(120);document.getElementById('enter').classList.add('show');},1300);}
 
 function confetti(n){
   const cv=document.getElementById('canvas');
@@ -639,13 +710,28 @@ document.getElementById('dots').innerHTML=Array.from({length:N},(_,i)=>`<button 
 document.getElementById('dots').onclick=e=>{const b=e.target.closest('button');if(b)show(+b.dataset.i);};
 document.getElementById('next').onclick=next;
 document.getElementById('prev').onclick=prev;
-document.getElementById('env').onclick=openEnv;
-document.getElementById('hint').onclick=openEnv;
+document.getElementById('env').onclick=e=>{e.stopPropagation();if(!document.getElementById('env').classList.contains('open')){openEnv();envOpenedAt=Date.now();}else if(Date.now()-envOpenedAt>1400)show(1);};
+document.getElementById('hint').onclick=e=>{e.stopPropagation();openEnv();envOpenedAt=Date.now();};
 document.getElementById('enter').onclick=()=>show(1);
 document.getElementById('goGrid').onclick=()=>show(6);
 document.getElementById('reset').onclick=()=>{document.querySelectorAll('.tile.done').forEach(t=>t.classList.remove('done'));saveDone();};
 document.getElementById('s6').addEventListener('click',e=>{const t=e.target.closest('.tile.rev');if(t)openPop(+t.dataset.lv);});
 document.getElementById('fs').onclick=()=>{const d=document.documentElement;try{if(document.fullscreenElement){document.exitFullscreen();}else{(d.requestFullscreen||d.webkitRequestFullscreen).call(d);}}catch(e){}};
+const sndBtn=document.getElementById('snd');
+const sndLabel=()=>{sndBtn.textContent=SFX.muted?'🔇':'🔊';sndBtn.title=SFX.muted?'音效已關閉':'音效開啟中';};sndLabel();
+sndBtn.addEventListener('click',e=>{e.stopPropagation();SFX.toggle();sndLabel();if(!SFX.muted)SFX.click();});
+// 前幾頁點空白處就能往下一頁（按鈕、格子、彈窗不受影響）
+let envOpenedAt=0;
+document.getElementById('canvas').addEventListener('click',e=>{
+  if(pop.className||e.target.closest('button,.tile,#pop'))return;
+  if(cur===0){const env=document.getElementById('env');
+    if(!env.classList.contains('open')){openEnv();envOpenedAt=Date.now();}
+    else if(Date.now()-envOpenedAt>1400)show(1);
+    return;}
+  if(cur>=1&&cur<=5)show(cur+1);
+});
+document.getElementById('canvas').addEventListener('click',e=>{const b=e.target.closest('button');if(b&&b.id!=='snd'&&b.id!=='puX')SFX.click();});
+let lastHover=null;document.getElementById('canvas').addEventListener('mouseover',e=>{const t=e.target.closest('.tile.rev');if(t&&t!==lastHover){lastHover=t;SFX.hover();}if(!t)lastHover=null;});
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'&&pop.className){closePop();return;}
   if(['ArrowRight','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();next();}
