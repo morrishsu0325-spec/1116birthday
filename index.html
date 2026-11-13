@@ -581,7 +581,7 @@ function buildSlides(){
     </div>`;
 
   document.getElementById('s3').innerHTML=`
-    <div class="sh" style="top:140px"><h1 class="in">遊戲規則</h1><p class="up" style="animation-delay:.2s">朋友們偷偷用了 9 個詞來形容挑戰者……</p></div>
+    <div class="sh" style="top:140px"><h1 class="in">遊戲規則</h1><p class="up" style="animation-delay:.2s">妳身邊最愛妳的家人，給了妳 9 個形容詞……</p></div>
     <div class="rules3">
       <div class="paper rcard pt-cream up" style="rotate:-2deg;animation-delay:.3s">${tape('pk','left:40%;top:-16px')}<div class="n">9</div><h3>九個個性</h3><p>每個個性<br>就是一道關卡</p><div class="qrow">${Array.from({length:9},(_,i)=>`<span style="background:${PC[i]}">?</span>`).join('')}</div></div>
       <div class="paper rcard pt-cream up" style="rotate:1.5deg;animation-delay:.5s">${tape('bl','left:40%;top:-16px')}<div class="n">1~3</div><h3>每關最多 3 份</h3><p>依照挑戰的表現<br>可以拿到 1～3 份禮物</p><div class="giftrow">${[0,1,2].map(i=>D('gift',PC[i])).join('')}</div></div>
