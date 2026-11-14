@@ -69,7 +69,7 @@ section .adj{font-size:14px;font-weight:700;background:var(--cl);padding:2px 10p
 .tbd{display:inline-block;font-size:12px;font-weight:700;color:#fff;background:#E8A23A;padding:2px 8px;border-radius:999px;margin-left:6px;vertical-align:2px}
 ol.q{margin:0;padding:0;list-style:none}
 ol.q li{display:flex;gap:10px;align-items:flex-start;padding:12px 10px;border-radius:12px;font-size:19px;line-height:1.5;cursor:pointer;border-bottom:1px dashed rgba(74,56,56,.15)}
-ol.q li .k{flex:0 0 auto;min-width:34px;height:34px;border-radius:50%;background:var(--cl);display:grid;place-items:center;font-family:'Gochi Hand';font-size:20px}
+ol.q li .k{flex:0 0 auto;min-width:34px;height:34px;padding:0 6px;font-size:18px;border-radius:50%;background:var(--cl);display:grid;place-items:center;font-family:'Gochi Hand';font-size:20px}
 ol.q li .lvl{display:block;font-size:12px;font-weight:700;color:var(--soft)}
 ol.q li .ab{display:block}
 ol.q li .ab i{font-style:normal;font-weight:700;color:var(--rose)}
@@ -116,10 +116,18 @@ const MIND=[
   ['很有錢但沒有時間','很有時間但沒有錢'],['被很多人喜歡','被一個人深愛'],['做喜歡但薪水普通的工作','做不喜歡但薪水超高的工作'],
   ['生日收到一場驚喜派對','生日收到一趟旅行'],['30 歲前存到一百萬','30 歲前環遊世界一次']]}
 ];
+// 禁語挑戰：已確定的題目（依難度排好，最後一題固定）
 const TABOO=[
- ['簡單','今天早餐吃了什麼？'],['簡單','最喜歡的顏色？'],['簡單','狗派還是貓派？'],['簡單','最近一次去旅行是去哪裡？'],['簡單','最常點的手搖飲是什麼？'],
- ['中等','在場誰最常遲到？'],['中等','最受不了別人哪個習慣？'],['中等','手機裡最常用的 App？'],['中等','最近一次哭是為了什麼？'],['中等','最不擅長的一件事？'],
- ['辛辣','在場誰最欠揍？'],['辛辣','最後悔的一個決定？'],['辛辣','初戀是幾歲？'],['辛辣','最想對前任說的一句話？'],['辛辣','26 歲最丟臉的一件事？']
+ ['簡單','最喜歡的顏色？'],['簡單','狗派還是貓派？'],['簡單','最常點的手搖飲是什麼？'],
+ ['中等','最受不了別人哪個習慣？'],['中等','說出一個自己的缺點？'],['中等','如果可以跟在場一個人交換靈魂，妳會選誰？'],['中等','如果生命只剩最後一句話，妳會說什麼？'],
+ ['辛辣','在場誰最欠揍？'],
+ ['辛辣','最受不了男友的哪一點？','最後一題']
+];
+// 候選題：從這裡挑出補滿 15 題
+const TABOO_NEW=[
+ ['簡單','最喜歡吃的水果？'],['簡單','最想養什麼寵物？'],['簡單','唱 KTV 必點的一首歌？'],['簡單','最常掛在嘴邊的口頭禪？'],
+ ['中等','在場誰最可能忘記妳的生日？'],['中等','最近一次被誰感動？'],['中等','覺得自己幾歲會結婚？'],['中等','最想回到幾歲？'],['中等','收過最難忘的一份禮物？'],['中等','在場誰的穿搭最需要被拯救？'],['中等','最想對 17 歲的自己說什麼？'],
+ ['辛辣','手機相簿裡最不能被看到的是哪一種照片？'],['辛辣','在場誰最不會看臉色？'],['辛辣','最近一次在心裡偷罵的人是誰？'],['辛辣','第一次約會的時候，心裡在想什麼？'],['辛辣','最想刪掉的一則貼文或限動？'],['辛辣','如果只能帶在場一個人去無人島，妳選誰？'],['辛辣','最近一次吃醋是因為什麼？'],['辛辣','說一個在場的人都不知道的小秘密？'],['辛辣','男友哪一點讓妳決定跟他在一起？']
 ];
 const SCEN=[['凌晨兩點回家，跟媽媽解釋為什麼這麼晚','拿著衣架、很生氣的媽媽'],['在電梯巧遇暗戀的人，要拿到對方的聯絡方式','暗戀對象'],['說服陌生人，把最後一塊蛋糕讓給妳','也想吃蛋糕、排在妳前面的陌生人']];
 
@@ -160,8 +168,11 @@ const body={
    <tr><td class="big">3</td><td>＿＿＿＿</td><td>冰水手套、剝皮葡萄、濕麵條、濕拖把頭</td></tr></table>
   <p class="note">信物先裝進夾鏈袋，藏在最底層或角落。</p>`,
  7:()=>`<div class="rules"><b>規則</b>共 15 題，從簡單一路到辛辣。每題 5 秒內要回答，關主和小幫手負責讀秒。超過 5 秒扣 1 份禮物（一開始 3 份），扣完挑戰結束。</div>
-  <div class="sub"><span>15 題<span class="tbd">待討論</span></span><button data-clear="t">清除標記</button></div>
-  <ol class="q">${TABOO.map(([lv,q],i)=>li('t'+i,i+1,`<span class="lvl">${lv}</span>${q}`)).join('')}</ol>`,
+  <div class="sub"><span>已確定 ${TABOO.length} 題<span class="tbd">還要挑 ${15-TABOO.length} 題</span></span><button data-clear="k">清除標記</button></div>
+  <ol class="q">${TABOO.map(([lv,q,tag],i)=>li('k'+i,i+1,`<span class="lvl">${lv}${tag?` ・ <b style="color:var(--rose)">${tag}</b>`:''}</span>${q}`)).join('')}</ol>
+  <div class="cat">候選題（挑 ${15-TABOO.length} 題補進來）<span>${TABOO_NEW.length} 題</span></div>
+  <ol class="q">${TABOO_NEW.map(([lv,q],i)=>li('n'+i,'候'+(i+1),`<span class="newtag">新</span><span class="lvl">${lv}</span>${q}`)).join('')}</ol>
+  <p class="note">挑好之後，依難度插進簡單、中等、辛辣的位置，「最受不了男友的哪一點？」固定在最後一題。</p>`,
  8:()=>`<div class="rules"><b>規則</b>平板抽情境卡，主持人宣讀並飾演配角。表演 2 分鐘，時間到進入投票，3 位評審亮 10 分或 0 分，過半數 10 分即過關，每過 1 題得 1 份。</div>
   <div class="sub">3 張情境卡</div>
   <ol class="q">${SCEN.map(([s,r],i)=>`<li><span class="k">${i+1}</span><span>${s}<span class="lvl" style="margin-top:4px">🎭 主持人飾演：${r}</span></span></li>`).join('')}</ol>`,
