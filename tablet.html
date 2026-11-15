@@ -207,7 +207,7 @@ main{padding:20px 22px 40px;max-width:1300px;margin:0 auto}
   </filter>
 </svg>
 <div class="bunting" id="bunting"></div>
-<div class="bar"><div class="t" id="title"><span class="en">serina 27</span>關主道具</div><button class="home" id="home">☰ 關卡選單</button></div>
+<div class="bar"><div class="t" id="title"><span class="en">serina 27</span>關主道具</div><div style="display:flex;gap:10px"><button class="home" id="fs">⛶ 全螢幕</button><button class="home" id="home">☰ 關卡選單</button></div></div>
 <main id="app"></main>
 <div id="layer"></div>
 <script>
@@ -540,6 +540,14 @@ document.addEventListener('pointerdown',e=>{const t=e.target.closest('[data-lock
 ['pointerup','pointerleave','pointercancel'].forEach(ev=>document.addEventListener(ev,()=>{clearTimeout(holdT);document.querySelectorAll('.holding').forEach(x=>x.classList.remove('holding'));},true));
 function confirmReset(){return window.confirm('確定要清除這一關的紀錄，重新開始嗎？');}
 
+// 全螢幕
+const fsBtn=document.getElementById('fs');
+const fsEl=()=>document.fullscreenElement||document.webkitFullscreenElement;
+function fsLabel(){fsBtn.textContent=fsEl()?'✕ 離開全螢幕':'⛶ 全螢幕';}
+fsBtn.addEventListener('click',e=>{e.stopPropagation();const d=document.documentElement;
+  try{if(fsEl()){(document.exitFullscreen||document.webkitExitFullscreen).call(document);}
+  else{const r=(d.requestFullscreen||d.webkitRequestFullscreen);if(r)r.call(d);else alert('這台裝置的瀏覽器不支援全螢幕，可以用「分享 → 加入主畫面」，從主畫面開啟就會是全螢幕。');}}catch(err){}});
+['fullscreenchange','webkitfullscreenchange'].forEach(ev=>document.addEventListener(ev,fsLabel));
 document.getElementById('bunting').innerHTML=buntingSVG();
 home();
 </script>
