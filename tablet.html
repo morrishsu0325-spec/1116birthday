@@ -79,6 +79,17 @@ main{padding:20px 22px 40px;max-width:1300px;margin:0 auto}
 .mt .tag{position:absolute;right:16px;top:16px;font-size:16px;font-weight:700;padding:4px 12px;border-radius:999px;background:var(--rose);color:#fff}
 .mt .tag.r{background:#FFFDF8;color:var(--soft)}
 .mt:active{scale:.97}
+.mt.lk{background-color:#2E2648;color:#fff;cursor:not-allowed;text-align:center}
+.mt.lk .n,.mt.lk .a{color:rgba(255,255,255,.6)}
+.mt.lk .g{font-size:30px}
+.mt.lk .pg{font-size:18px;font-weight:700;margin-top:6px;color:rgba(255,255,255,.75)}
+.mt.lk .hold{position:absolute;left:0;bottom:0;height:6px;width:0;background:#FFD86B;border-radius:0 0 0 18px}
+.mt.lk.holding .hold{width:100%;transition:width 3s linear}
+.mt.shk{animation:shk9 .45s}
+@keyframes shk9{20%{translate:-12px 0}40%{translate:12px 0}60%{translate:-8px 0}80%{translate:8px 0}}
+.mt.unlk{animation:unlk9 1.2s}
+@keyframes unlk9{0%{scale:.6;opacity:0}60%{scale:1.1;opacity:1}100%{scale:1}}
+.lkreset{display:block;margin:26px auto 0;border:none;background:none;color:var(--soft);font-size:16px;font-weight:700;text-decoration:underline;cursor:pointer}
 
 /* 規則卡 */
 .rcard{max-width:900px;margin:0 auto;padding:34px 40px}
@@ -138,6 +149,19 @@ main{padding:20px 22px 40px;max-width:1300px;margin:0 auto}
 .th span{font-size:22px;font-weight:700;padding:8px 18px;border-radius:999px;background:#FFFDF8;opacity:.45;transition:all .3s}
 .th span.hit{opacity:1;background:#FFE27A;scale:1.08}
 
+/* 第 7 關 */
+.taboo{max-width:1000px;margin:0 auto;text-align:center}
+.stars3{display:flex;justify-content:center;gap:min(5vw,50px);margin:10px 0 18px}
+.stars3 .st{width:min(24vw,30vh,250px);transition:filter .4s,opacity .4s}
+.stars3 .st.off{filter:grayscale(1);opacity:.25}
+.stars3 .st.drop{animation:stDrop .9s both}
+@keyframes stDrop{0%{scale:1}15%{scale:1.15;rotate:-10deg}30%{rotate:10deg}45%{rotate:-8deg}100%{scale:.9;rotate:0deg;filter:grayscale(1);opacity:.25}}
+.stars3 .st.back{animation:popB .5s both}
+.tleft{font-size:34px;font-weight:700;margin:0 0 20px}
+.tleft b{color:var(--rose);font-family:'Gochi Hand';font-size:56px;font-weight:400}
+.minus{font-size:40px;min-height:130px;padding:20px 50px;border-radius:34px;background-color:var(--red);box-shadow:0 7px 0 #A83E3E}
+.minus:active{box-shadow:0 1px 0 #A83E3E}
+.tover{font-size:60px;font-weight:700;color:var(--red);margin:6px 0 16px}
 /* 第 8 關 */
 .deck{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;max-width:1100px;margin:0 auto}
 .sc{position:relative;height:300px;border:none;border-radius:24px;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 0 rgba(74,56,56,.12);background-color:#FCE4EC;background-image:var(--noise),radial-gradient(#F8C4D3 18%,transparent 20%);background-size:220px,24px 24px}
@@ -269,7 +293,7 @@ const LV=[
  {id:4,adj:'溫柔細膩・高雅脫俗',name:'矇眼摸摸排年紀',cl:'#FBE3E8',bg:'pt-stars',rules:['5 位關主排成一排','挑戰者矇眼，只能摸手肘','依年紀由大排到小','每次排完公布排對幾位，共 3 次機會'],gift:'第 1 次全對 3 份，每多一次少 1 份'},
  {id:5,adj:'有品味',name:'盲品大師',cl:'#FFE9DA',bg:'pt-gingham',rules:['挑戰者矇眼品嚐 3 杯珍奶','開始前先說出 3 個品牌名稱','依品牌排出正確順序','共 3 次機會'],gift:'第 1 輪對 3 份、第 2 輪 2 份、第 3 輪 1 份'},
  {id:6,adj:'勇敢',name:'恐怖箱',cl:'#E6E0F2',bg:'pt-lav',rules:['共 3 個箱子','挑戰者矇眼，手伸進箱子','主持人先告知這輪的關鍵信物','找到並拿出箱子才算通關'],gift:'每通關 1 箱得 1 份'},
- {id:7,adj:'直率',name:'禁語挑戰',cl:'#E4EEF9',bg:'pt-stripe',rules:['共 15 題，從簡單到辛辣','每題 5 秒內要回答','關主和小幫手們負責讀秒','超過 5 秒扣 1 份禮物，扣完為止'],gift:'答完 15 題剩幾份拿幾份'},
+ {id:7,adj:'直率',name:'禁語挑戰',cl:'#E4EEF9',bg:'pt-stripe',tool:'星星扣分',rules:['共 15 題，從簡單到辛辣','每題 5 秒內要回答','關主和小幫手們負責讀秒','超過 5 秒扣 1 份禮物，扣完為止'],gift:'答完 15 題剩幾份拿幾份'},
  {id:8,adj:'有魅力',name:'魅力電波',cl:'#FCE4EC',bg:'pt-hearts',tool:'情境卡＋計時',rules:['平板抽情境卡，主持人宣讀並一起演出','表演 2 分鐘，時間到進入投票','3 位評審亮出 10 分或 0 分','過半數給 10 分即過關，共 3 題'],gift:'每過 1 題得 1 份'},
  {id:9,adj:'自由奔放',name:'願望大聲公',cl:'#DDEEFB',bg:'pt-sky',rules:['最終關卡：前 8 關挑戰完才進行','喊出一個生日願望，分貝計放在嘴巴旁邊','110 dB 起跳，達到就拿 2 份','115 → 120 → 125 → 130 dB，每多 5 dB 再加 2 份','最高 130 dB，只有 1 次機會'],gift:'110 dB 得 2 份，每多 5 dB 加 2 份，最多 10 份'}
 ];
@@ -290,16 +314,30 @@ function setTitle(t){document.getElementById('title').innerHTML=`<span class="en
 function giftsHTML(n){return `<div class="gifts">${Array.from({length:n},(_,i)=>D('gift',PC[i],'',`animation-delay:${.2+i*.2}s`)).join('')}</div>`;}
 
 /* =================== 首頁 =================== */
+/* 最終關卡：第 9 關要等前 8 關都在平板上打開過才會顯示 */
+const FINAL=9;
+let SEEN=store.get('seen',[]), F9=store.get('f9',{forced:false,shown:false});
+const seenCount=()=>LV.filter(l=>l.id!==FINAL&&SEEN.includes(l.id)).length;
+const finalOpen=()=>F9.forced||seenCount()>=LV.length-1;
 function home(){
   clearTimers();layer.innerHTML='';setTitle('關主道具');
+  const open=finalOpen(), justNow=open&&!F9.shown;
+  if(justNow){F9.shown=true;store.set('f9',F9);}
   app.innerHTML=`<div class="h"><h1>選擇關卡</h1><p>有「平板道具」的關卡可以直接操作，其他關卡顯示規則</p></div>
-  <div class="menu">${LV.map(l=>`<button class="mt ${l.bg}" data-lv="${l.id}"><span class="tag ${l.tool?'':'r'}">${l.tool?'🛠 '+l.tool:'規則'}</span><div class="n">${l.id}</div><div class="a">${l.adj}</div><div class="g">${l.name}</div></button>`).join('')}</div>`;
+  <div class="menu">${LV.map(l=>l.id===FINAL&&!open
+    ?`<button class="mt lk" data-lock9="1"><div class="n">${l.id}</div><div class="a">？？？</div><div class="g">🔒 最終關卡</div><div class="pg">完成前 8 關後解鎖（${seenCount()} / ${LV.length-1}）</div><i class="hold"></i></button>`
+    :`<button class="mt ${l.bg} ${l.id===FINAL&&justNow?'unlk':''}" data-lv="${l.id}"><span class="tag ${l.tool?'':'r'}">${l.tool?'🛠 '+l.tool:'規則'}</span><div class="n">${l.id}</div><div class="a">${l.adj}</div><div class="g">${l.name}</div></button>`).join('')}</div>
+  <button class="lkreset" id="lkReset">重新鎖上最終關卡</button>`;
+  if(justNow){confetti(140);chime();}
 }
 function openLv(id){
   clearTimers();layer.innerHTML='';
+  if(id===FINAL&&!finalOpen())return home();
+  if(id!==FINAL&&!SEEN.includes(id)){SEEN.push(id);store.set('seen',SEEN);}
   const l=LV.find(x=>x.id===id);setTitle(`第 ${l.id} 關・${l.name}`);
   if(id===1)return math();
   if(id===3)return mind();
+  if(id===7)return taboo();
   if(id===8)return charm();
   rulesView(l);
 }
@@ -391,6 +429,25 @@ function mindResult(){
   },35);timers.push(t);
 }
 
+/* =================== 第 7 關：禁語挑戰星星 =================== */
+const TABOO_STARS=3;
+let T7=store.get('taboo',{left:TABOO_STARS,end:false});
+function saveT(){store.set('taboo',T7);}
+function taboo(anim){
+  const over=T7.left<=0, end=T7.end||over;
+  app.innerHTML=`<div class="taboo">
+    <div class="h"><h1>禁語挑戰</h1><p>每題 5 秒內回答，超過 5 秒就扣 1 顆星星（1 顆 = 1 份禮物）</p></div>
+    <div class="stars3">${Array.from({length:TABOO_STARS},(_,i)=>{const on=i<T7.left;const cls=anim==='drop'&&i===T7.left?'drop':anim==='back'&&i===T7.left-1?'back':on?'':'off';return D('star','#FFD86B','st '+cls);}).join('')}</div>
+    ${end?`<div class="tover">${over?'星星扣完，挑戰結束！':'挑戰完成！'}</div>${giftsHTML(T7.left)}<p class="tleft">${T7.left?`挑戰者獲得 ${T7.left} 份禮物 🎉`:'這關的禮物會送給 VIP 賓客'}</p>`
+      :`<p class="tleft">還剩 <b>${T7.left}</b> 顆星星</p>
+    <div class="row"><button class="btn minus" id="tMinus">⏰ 超過 5 秒，扣 1 顆</button></div>`}
+    <div class="row">
+      <button class="btn ghost" id="tUndo" ${T7.left>=TABOO_STARS&&!T7.end?'disabled':''}>↶ 復原</button>
+      ${end?'':`<button class="btn green" id="tDone">✓ 15 題答完，結算</button>`}
+      <button class="btn ghost" id="tReset">重新開始</button>
+    </div></div>`;
+}
+
 /* =================== 第 8 關：情境卡＋計時 =================== */
 let C8=store.get('charm',{used:[],res:[]});
 function saveC(){store.set('charm',C8);}
@@ -446,6 +503,8 @@ document.addEventListener('click',e=>{
   const t=e.target.closest('button');if(!t)return;
   if(t.id==='home')return home();
   if(t.dataset.lv)return openLv(+t.dataset.lv);
+  if(t.dataset.lock9){t.classList.remove('shk');void t.offsetWidth;t.classList.add('shk');beep(220,.2,.3);return;}
+  if(t.id==='lkReset'){if(window.confirm('確定要重新鎖上最終關卡嗎？前 8 關的完成紀錄也會清除。')){SEEN=[];F9={forced:false,shown:false};store.set('seen',SEEN);store.set('f9',F9);home();}return;}
   // 第 1 關
   if(t.dataset.q){if(t.classList.contains('used'))return;return mathShow(t.dataset.q);}
   if(t.id==='mBack'){clearTimers();layer.innerHTML='';return;}
@@ -457,6 +516,11 @@ document.addEventListener('click',e=>{
   if(t.dataset.hit!==undefined){R.push(+t.dataset.hit);store.set('mind',R);beep(t.dataset.hit==='1'?990:330,.12,.25,'triangle');return mind();}
   if(t.id==='rUndo'){clearTimers();R.pop();store.set('mind',R);return mind();}
   if(t.id==='rReset'){if(confirmReset()){clearTimers();R=[];store.set('mind',R);mind();}return;}
+  // 第 7 關
+  if(t.id==='tMinus'){if(T7.left>0){T7.left--;saveT();alarmSound();setTimeout(()=>clearTimers(),900);taboo('drop');}return;}
+  if(t.id==='tUndo'){if(T7.end&&T7.left>0){T7.end=false;}else if(T7.left<TABOO_STARS){T7.left++;T7.end=false;}saveT();beep(990,.15,.25,'triangle');return taboo('back');}
+  if(t.id==='tDone'){T7.end=true;saveT();taboo();if(T7.left){confetti(120);chime();}return;}
+  if(t.id==='tReset'){if(confirmReset()){T7={left:TABOO_STARS,end:false};saveT();taboo();}return;}
   // 第 8 關
   if(t.dataset.sc){const i=+t.dataset.sc;if(C8.used.includes(i))return;return charmCard(i);}
   if(t.id==='tBack'){clearTimers();return charm();}
@@ -469,6 +533,11 @@ document.addEventListener('click',e=>{
   if(t.id==='vOk'){const vs=JSON.parse(app.dataset.votes);const ok=Object.values(vs).filter(x=>x===10).length>=2;C8.used.push(+app.dataset.sc);C8.res.push(ok);saveC();if(ok){confetti(100);chime();}return charm();}
   if(t.id==='cReset'){if(confirmReset())(C8={used:[],res:[]},saveC(),charm());return;}
 });
+// 主持人備用：長按鎖住的第 9 關 3 秒可以手動解鎖
+let holdT=null;
+document.addEventListener('pointerdown',e=>{const t=e.target.closest('[data-lock9]');if(!t)return;t.classList.add('holding');
+  holdT=setTimeout(()=>{t.classList.remove('holding');if(window.confirm('要手動解鎖最終關卡嗎？')){F9.forced=true;store.set('f9',F9);home();}},3000);});
+['pointerup','pointerleave','pointercancel'].forEach(ev=>document.addEventListener(ev,()=>{clearTimeout(holdT);document.querySelectorAll('.holding').forEach(x=>x.classList.remove('holding'));},true));
 function confirmReset(){return window.confirm('確定要清除這一關的紀錄，重新開始嗎？');}
 
 document.getElementById('bunting').innerHTML=buntingSVG();
