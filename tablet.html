@@ -194,6 +194,69 @@ main{padding:20px 22px 40px;max-width:1300px;margin:0 auto}
 .row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:18px}
 .cf{position:fixed;top:-20px;width:12px;height:16px;z-index:80;pointer-events:none;animation:fall linear forwards}
 @keyframes fall{to{translate:0 110vh;rotate:720deg}}
+
+/* ===== 第 7 關禮物尺寸 ===== */
+.taboo .gifts{display:flex;justify-content:center;gap:16px;margin:10px 0}
+.taboo .gifts .dd{width:100px;animation:popB .5s both}
+/* ===== 平板橫放：所有頁面一個畫面放得下 ===== */
+@media (orientation:landscape) and (max-height:1000px){
+  .bunting{height:46px}
+  .fl{width:34px;height:40px}
+  .bar{margin-top:-12px}
+  .bar .t{font-size:18px;padding:6px 14px}.bar .t .en{font-size:22px}
+  .home{font-size:17px;padding:8px 16px}
+  main{padding:10px 22px 14px}
+  .h{margin:0 0 12px}
+  .h h1{font-size:clamp(26px,4.6vh,40px)}
+  .h p{font-size:16px;margin-top:4px}
+  .row{margin-top:12px}
+  .btn{font-size:20px;min-height:54px;padding:12px 22px}
+  .btn.big{font-size:26px;min-height:72px;padding:14px 30px}
+  /* 選單 */
+  .menu{gap:14px}
+  .mt{min-height:0;height:max(92px,calc((100vh - 268px)/3));padding:12px 18px}
+  .mt .n{font-size:28px}.mt .a{font-size:14px;margin-top:2px}.mt .g{font-size:clamp(20px,3.4vh,30px);margin-top:2px}
+  .mt .tag{font-size:13px;padding:3px 10px;right:12px;top:12px}
+  .mt.lk .g{font-size:clamp(20px,3.4vh,30px)}.mt.lk .pg{font-size:14px;margin-top:2px}
+  .lkreset{margin:8px auto 0;font-size:14px}
+  /* 第 1 關 */
+  .score{margin-bottom:12px;gap:10px}.score span{font-size:18px;padding:6px 14px}
+  .cards{gap:14px}
+  .qc{height:max(76px,calc((100vh - 350px)/3))}
+  .qc span{font-size:clamp(46px,9vh,76px)}
+  .show .top{padding:10px 16px}.show .lbl{font-size:32px}
+  .show .stage{gap:12px}
+  .eq{font-size:min(7vw,7vh,96px)}
+  .ans{font-size:22px;min-height:28px}
+  .ctrl{gap:12px;padding:10px 16px 12px}.side{gap:8px}.side h3{font-size:20px}
+  /* 第 3 關 */
+  .qno{font-size:clamp(60px,12vh,120px)}.qno small{font-size:.45em}
+  .dots20{margin:10px auto 16px;gap:8px}.dots20 i{width:24px;height:24px}
+  .hm .btn{min-height:clamp(90px,17vh,170px);font-size:clamp(32px,5.5vh,46px)}
+  .mind>p{margin-top:10px!important}
+  .ring{width:min(40vw,32vh,420px);margin-top:0}
+  .ring .pct{font-size:min(10vw,9vh,130px)}
+  .th{margin-top:12px}.th span{font-size:18px;padding:6px 14px}
+  #gres{min-height:0!important}
+  .res{padding:16px 20px}.res .big{font-size:clamp(90px,18vh,180px)}.res p{font-size:28px}
+  .res .gifts{margin:10px 0}.res .gifts .dd{width:clamp(60px,11vh,110px)}
+  /* 第 7 關 */
+  .stars3{margin:4px 0 10px}.stars3 .st{width:min(22vw,26vh,250px)}
+  .tleft{font-size:26px;margin:0 0 10px}.tleft b{font-size:44px}
+  .minus{min-height:clamp(80px,13vh,130px);font-size:clamp(28px,4.6vh,40px)}
+  .tover{font-size:clamp(36px,6.5vh,60px);margin:0 0 6px}
+  .taboo .gifts .dd{width:clamp(60px,10vh,100px)}
+  /* 第 8 關 */
+  .sc{height:max(180px,calc(100vh - 330px))}
+  .flipc{padding:20px 28px}.flipc h2{font-size:clamp(30px,5.4vh,48px);margin:6px 0 12px}.flipc .role{font-size:22px}
+  .timer{font-size:min(16vw,17vh,200px);margin:6px 0 2px}
+  .judges{margin:10px 0;gap:14px}.jd{padding:12px 10px}.jd .face{font-size:40px}.jd .nm{font-size:18px;margin:2px 0 8px}
+  .jd .vb button{min-height:64px;font-size:38px}
+  .verdict{font-size:clamp(30px,5.5vh,56px);margin:8px 0}
+  /* 規則卡 */
+  .rcard{padding:22px 32px}.rcard li{font-size:clamp(20px,3.4vh,26px);margin-bottom:8px}
+  .giftline{margin-top:12px;font-size:clamp(18px,3vh,24px);padding:10px 16px}
+}
 </style>
 </head>
 <body>
