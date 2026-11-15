@@ -157,9 +157,9 @@ const body={
  6:()=>`<div class="rules"><b>規則</b>挑戰者矇眼把手伸進箱子。每輪開始前，主持人告知這輪的關鍵信物，找到並拿出箱子才算通關，每通關 1 箱得 1 份。</div>
   <div class="sub"><span>三個箱子<span class="tbd">待定</span></span></div>
   <table><tr><th>箱</th><th>關鍵信物</th><th>箱子裡放什麼</th></tr>
-   <tr><td class="big">1</td><td>＿＿＿＿</td><td>果凍、濕海綿、毛毛球</td></tr>
-   <tr><td class="big">2</td><td>＿＿＿＿</td><td>蒟蒻絲、納豆、粉圓</td></tr>
-   <tr><td class="big">3</td><td>＿＿＿＿</td><td>冰水手套、剝皮葡萄、濕麵條、濕拖把頭</td></tr></table>
+   <tr><td class="big">1</td><td>＿＿＿＿</td><td>冰塊、肉鬆、掃把毛、泡麵麵條、一些滑滑的油</td></tr>
+   <tr><td class="big">2</td><td>＿＿＿＿</td><td>豆腐、布丁、果凍、香蕉果肉、剝皮葡萄、橡皮筋、烏龍麵</td></tr>
+   <tr><td class="big">3</td><td>＿＿＿＿</td><td>美乃滋、牙膏和各種醬、沐浴乳、洗髮精、泡水衛生紙、捏爛的奇異果、剝皮葡萄、泡麵麵條（拌橄欖油）</td></tr></table>
   <p class="note">信物先裝進夾鏈袋，藏在最底層或角落。</p>`,
  7:()=>`<div class="rules"><b>規則</b>共 15 題，從簡單一路到辛辣。每題 5 秒內要回答，關主和小幫手負責讀秒。超過 5 秒扣 1 份禮物（一開始 3 份），扣完挑戰結束。</div>
   <div class="sub"><span>目前 ${TABOO.length} 題${TABOO.length>15?`<span class="tbd">還要刪 ${TABOO.length-15} 題</span>`:''}</span><button data-clear="t">清除標記</button></div>
@@ -168,8 +168,8 @@ const body={
  8:()=>`<div class="rules"><b>規則</b>平板抽情境卡，主持人宣讀並飾演配角。表演 2 分鐘，時間到進入投票，3 位評審亮 10 分或 0 分，過半數 10 分即過關，每過 1 題得 1 份。</div>
   <div class="sub">3 張情境卡</div>
   <ol class="q">${SCEN.map(([s,r],i)=>`<li><span class="k">${i+1}</span><span>${s}<span class="lvl" style="margin-top:4px">🎭 主持人飾演：${r}</span></span></li>`).join('')}</ol>`,
- 9:()=>`<div class="rules"><b>規則</b>共 3 輪，每輪喊出一個生日願望，分貝計放在嘴巴旁邊，每輪只有 1 次機會，達標得 1 份。</div>
-  <table><tr><th>輪</th><th>目標</th></tr><tr><td>第 1 個願望</td><td class="big">90 dB</td></tr><tr><td>第 2 個願望</td><td class="big">100 dB</td></tr><tr><td>第 3 個願望</td><td class="big">110 dB</td></tr></table>`
+ 9:()=>`<div class="rules"><b>規則</b>最終關卡，前 8 關都挑戰完才解鎖。喊出一個生日願望，分貝計放在嘴巴旁邊，只有 1 次機會。110 分貝起跳，之後每多 5 分貝再多拿 2 份，最高 130 分貝。讓壽星把前面沒拿到的禮物喊回來！</div>
+  <table><tr><th>分貝</th><th>禮物</th></tr>${[[110,2],[115,4],[120,6],[125,8],[130,10]].map(([d,g])=>`<tr><td class="big">${d} dB</td><td class="big">${g} 份</td></tr>`).join('')}</table>`
 };
 function render(){
   const SHOW=[1,3,7,8];
